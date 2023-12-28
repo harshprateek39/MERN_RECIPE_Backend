@@ -13,21 +13,21 @@ router.post('/register',async(req,res)=>{
    const hashedPassword=await bcrypt.hash(password,10);
    const newUser=new UserModel({name ,username,password: hashedPassword});
    await newUser.save();
-   res.json({message:"user registered  !"});
+   res.json({message:"user registered!"});
 }); 
 router.post('/login', async(req,res)=>{
     const {username, password}=req.body;
     const user=await UserModel.findOne({username});
-    if(!user){ return res.json({message:"User does not Exist"});
+    console.log(user);
+    if(!user){ 
+      return res.json({message:"User does not Exist"});
         }
    
-   const hPassword=await bcrypt.compare(password,user.password);
+    else {const hPassword=await bcrypt.compare(password,user.password);
    if(!hPassword){
    return res.json({message:"Wrong Password"});}
-
-  
    const token= jwt.sign({id:user._id}, "predator");
-   res.json({token, userID:user._id});
+   res.json({token, userID:user._id});}
 });
 export {router as userRouter};
 

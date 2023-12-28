@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv"
 import {userRouter} from "./src/routes/users.js"
 import { recipeRouter } from "./src/routes/recipees.js";
+import { contactRoute } from "./src/routes/contact.js";
 dotenv.config();
 const app=express();
 app.use(express.json());
@@ -13,6 +14,7 @@ app.get('/', function (req, res) {
  })
 app.use("/auth",userRouter);
 app.use("/recipes",recipeRouter);
+app.use("/contact",contactRoute);
 mongoose.connect(process.env.MongoURL) 
  
 app.listen(3001,()=>{console.log("started");});
